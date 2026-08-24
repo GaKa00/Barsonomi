@@ -1,0 +1,37 @@
+Set-Content -Path .gitignore -Value @"
+# ==========================================
+# 1. .NET / C# (Barsonomy.Api)
+# ==========================================
+bin/
+obj/
+out/
+[Dd]ebug/
+[Rr]elease/
+.vs/
+.vscode/
+*.user
+*.suo
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Secrets.json
+*.db
+*.sqlite
+
+# ==========================================
+# 2. Node.js / React / Vite (Barsonomy.Client)
+# ==========================================
+node_modules/
+dist/
+build/
+*.log
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# ==========================================
+# 3. Operativsystem
+# ==========================================
+.DS_Store
+Thumbs.db
+"@
