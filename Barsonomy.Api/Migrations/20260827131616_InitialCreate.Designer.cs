@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Barsonomy.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260825142410_InitialCreate")]
+    [Migration("20260827131616_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
