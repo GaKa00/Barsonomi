@@ -1,6 +1,6 @@
 ﻿namespace Barsonomy.Api.Services
 {
-    public class SubscribtionServices
+    public class SubscriptionServices
     {
     }
 }
