@@ -1,4 +1,6 @@
 using Barsonomy.Api.Data;
+using Barsonomy.Api.Services;
+using Barsonomy.Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -24,6 +26,12 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>(options =>
     options.Password.RequireLowercase = false;
     options.Password.RequiredLength = 6;
 }).AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Register Services
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
+builder.Services.AddScoped<IBeerService, BeerService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 builder.Services.AddControllers();
 
