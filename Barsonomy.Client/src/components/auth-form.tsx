@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight, LockKeyhole, Mail, UserRound } from "lucide-react";
+import { api } from "@/api/api-client";
 import { AuthLogo } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +12,33 @@ import { Label } from "@/components/ui/label";
 export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const isRegister = mode === "register";
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setErrorMessage(null);
+
+    const formData = new FormData(event.currentTarget);
+    const email = String(formData.get("email"));
+    const password = String(formData.get("password"));
+
+    try {
+      if (isRegister) {
+        await api.auth.register({ email, password });
+      } else {
+        await api.auth.login({ email, password });
+      }
+
+      setSubmitted(true);
+    } catch {
+      setErrorMessage(
+        isRegister
+          ? "We could not create your account. Check your details and try again."
+          : "We could not sign you in. Check your email and password.",
+      );
+    }
+  }
+
   return (
     <main className="auth-page">
       <div className="auth-decoration">
@@ -35,20 +63,19 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               : "Pick up where you left off and keep your spending in check."}
           </p>
         </div>
-        <form
-          className="auth-form"
-          onSubmit={(event) => {
-            event.preventDefault();
-            setSubmitted(true);
-          }}
-        >
+        <form className="auth-form" onSubmit={handleSubmit}>
           <div className="field-group">
             {isRegister && (
               <>
                 <Label htmlFor="name">Your name</Label>
                 <div className="input-with-icon">
                   <UserRound size={17} />
-                  <Input id="name" placeholder="Jamie Davis" required />
+                  <Input
+                    id="name"
+                    name="name"
+                    placeholder="Jamie Davis"
+                    required
+                  />
                 </div>
               </>
             )}
@@ -57,6 +84,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               <Mail size={17} />
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="you@example.com"
                 required
@@ -74,6 +102,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               <LockKeyhole size={17} />
               <Input
                 id="password"
+                name="password"
                 type="password"
                 placeholder="••••••••"
                 minLength={8}
@@ -98,10 +127,12 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         </form>
         {submitted && (
           <p className="success-message">
-            Demo mode is ready. Connect this form to your API when
-            authentication is wired.
+            {isRegister
+              ? "Your account is ready. You can now sign in."
+              : "You are signed in."}
           </p>
         )}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <p className="auth-switch">
           {isRegister ? "Already have an account?" : "New to Barsonomy?"}{" "}
           <Link href={isRegister ? "/login" : "/register"}>
