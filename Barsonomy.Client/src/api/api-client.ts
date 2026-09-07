@@ -7,7 +7,7 @@ export const apiRoutes = {
     login: "/api/auth/login",
     refresh: "/api/auth/refresh",
   },
-  beer: "/api/Beer",
+  beergoals: "/api/Beer",
   categories: "/api/Category",
   dashboard: "/api/Dashboard",
   expenses: "/api/Expense",
@@ -97,24 +97,24 @@ export const api = {
         data: { refreshToken },
       }),
   },
-  beer: {
-    list: () => request<unknown[]>({ method: "GET", url: apiRoutes.beer }),
+  beergoals: {
+    list: () => request<unknown[]>({ method: "GET", url: apiRoutes.beergoals }),
     get: (id: number) =>
-      request<unknown>({ method: "GET", url: `${apiRoutes.beer}/${id}` }),
+      request<unknown>({ method: "GET", url: `${apiRoutes.beergoals}/${id}` }),
     create: <TRequest, TResponse>(payload: TRequest) =>
       request<TResponse>({
         method: "POST",
-        url: apiRoutes.beer,
+        url: apiRoutes.beergoals,
         data: payload,
       }),
     update: <TRequest, TResponse>(id: number, payload: TRequest) =>
       request<TResponse>({
         method: "PUT",
-        url: `${apiRoutes.beer}/${id}`,
+        url: `${apiRoutes.beergoals}/${id}`,
         data: payload,
       }),
     remove: (id: number) =>
-      request<void>({ method: "DELETE", url: `${apiRoutes.beer}/${id}` }),
+      request<void>({ method: "DELETE", url: `${apiRoutes.beergoals}/${id}` }),
   },
   categories: {
     list: () =>
