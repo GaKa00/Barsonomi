@@ -1,5 +1,13 @@
 import axios from "axios";
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
+import type {
+  BeerGoal,
+  Category,
+  CreateBeerRequest,
+  CreateExpenseRequest,
+  DashboardSummary,
+  Expense,
+} from "./api-types";
 
 export const apiRoutes = {
   auth: {
@@ -98,17 +106,18 @@ export const api = {
       }),
   },
   beergoals: {
-    list: () => request<unknown[]>({ method: "GET", url: apiRoutes.beergoals }),
+    list: () =>
+      request<BeerGoal[]>({ method: "GET", url: apiRoutes.beergoals }),
     get: (id: number) =>
-      request<unknown>({ method: "GET", url: `${apiRoutes.beergoals}/${id}` }),
-    create: <TRequest, TResponse>(payload: TRequest) =>
-      request<TResponse>({
+      request<BeerGoal>({ method: "GET", url: `${apiRoutes.beergoals}/${id}` }),
+    create: (payload: CreateBeerRequest) =>
+      request<BeerGoal>({
         method: "POST",
         url: apiRoutes.beergoals,
         data: payload,
       }),
-    update: <TRequest, TResponse>(id: number, payload: TRequest) =>
-      request<TResponse>({
+    update: (id: number, payload: BeerGoal) =>
+      request<BeerGoal>({
         method: "PUT",
         url: `${apiRoutes.beergoals}/${id}`,
         data: payload,
@@ -118,21 +127,22 @@ export const api = {
   },
   categories: {
     list: () =>
-      request<unknown[]>({ method: "GET", url: apiRoutes.categories }),
+      request<Category[]>({ method: "GET", url: apiRoutes.categories }),
   },
   dashboard: {
-    get: () => request<unknown>({ method: "GET", url: apiRoutes.dashboard }),
+    get: () =>
+      request<DashboardSummary>({ method: "GET", url: apiRoutes.dashboard }),
   },
   expenses: {
-    list: () => request<unknown[]>({ method: "GET", url: apiRoutes.expenses }),
-    create: <TRequest, TResponse>(payload: TRequest) =>
-      request<TResponse>({
+    list: () => request<Expense[]>({ method: "GET", url: apiRoutes.expenses }),
+    create: (payload: CreateExpenseRequest) =>
+      request<Expense>({
         method: "POST",
         url: apiRoutes.expenses,
         data: payload,
       }),
-    update: <TRequest, TResponse>(payload: TRequest) =>
-      request<TResponse>({
+    update: (payload: Expense) =>
+      request<Expense>({
         method: "PUT",
         url: apiRoutes.expenses,
         data: payload,
