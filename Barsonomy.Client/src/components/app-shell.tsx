@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import {
   LayoutDashboard,
   LogOut,
@@ -18,6 +19,17 @@ const navItems = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const hasAccessToken =
+    typeof window !== "undefined" &&
+    Boolean(window.localStorage.getItem("barsonomy.accessToken"));
+
+  useEffect(() => {
+    if (!hasAccessToken) {
+      router.replace("/login");
+    }
+  }, [hasAccessToken, router]);
+
   return (
     <div className="app-frame">
       <aside className="sidebar">
