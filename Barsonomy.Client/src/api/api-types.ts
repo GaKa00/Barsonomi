@@ -41,3 +41,22 @@ export type Expense = CreateExpenseRequest & {
   id: number;
   categoryName: string;
 };
+
+export type LoginRequest = {
+  email: string;
+  password: string;
+  twoFactorCode?: string;
+  twoFactorRecoveryCode?: string;
+};
+
+export type RegisterRequest = {
+  email: string;
+  password: string;
+};
+
+export type AuthResponse = {
+  tokenType: string;
+  accessToken: string;
+  expiresIn: number;
+  refreshToken: string;
+};
