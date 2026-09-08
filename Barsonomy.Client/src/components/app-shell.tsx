@@ -37,11 +37,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <span className="brand-mark">
             <Sparkles size={18} />
           </span>
-          <span>barsonomy</span>
+          <span>Bärsonomi</span>
         </Link>
-        <div className="workspace-label">
-          Workspace <span>PERSONAL</span>
-        </div>
+     
         <nav className="side-nav" aria-label="Main navigation">
           {navItems.map(({ href, label, icon: Icon }) => (
             <Link
@@ -54,20 +52,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
           ))}
         </nav>
-        <div className="sidebar-bottom">
-          <Link href="#" className="side-link">
-            <Settings size={18} />
-            Settings
-          </Link>
-          <div className="profile">
-            <div className="avatar">JD</div>
-            <div>
-              <strong>Jamie Davis</strong>
-              <small>Free plan</small>
-            </div>
-            <LogOut size={16} className="profile-logout" />
-          </div>
-        </div>
       </aside>
       <div className="main-area">{children}</div>
     </div>
@@ -80,7 +64,7 @@ export function AuthLogo() {
       <span className="brand-mark">
         <Sparkles size={18} />
       </span>
-      <span>barsonomy</span>
+      <span>Bärsonomi</span>
     </Link>
   );
 }

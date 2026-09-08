@@ -45,39 +45,30 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
 
   return (
     <main className="auth-page">
-      <div className="auth-decoration">
-        <div className="deco-grid" />
-        <div className="deco-note note-one">Know where your money goes.</div>
-        <div className="deco-note note-two">
-          Spend with intention <span>✦</span>
-        </div>
-      </div>
+
       <section className="auth-panel">
         <AuthLogo />
         <div className="auth-copy">
-          <p className="eyebrow">
-            {isRegister ? "START YOUR JOURNEY" : "WELCOME BACK"}
-          </p>
+      
           <h1>
-            {isRegister ? "Make money feel simpler." : "Your money, in focus."}
+           Enklare Ekonomi  --
+            Av Alkoholister, För Alkoholister
           </h1>
           <p>
-            {isRegister
-              ? "A calmer way to track spending, build better habits, and feel in control."
-              : "Pick up where you left off and keep your spending in check."}
+          Inget mer krångel med att hålla koll på dina utgifter. Vi snackar i den enda valutan som betyder något. Skål!
           </p>
         </div>
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="field-group">
             {isRegister && (
               <>
-                <Label htmlFor="name">Your name</Label>
+                <Label htmlFor="name">Va Fan heter du?</Label>
                 <div className="input-with-icon">
                   <UserRound size={17} />
                   <Input
                     id="name"
                     name="name"
-                    placeholder="Jamie Davis"
+                    placeholder="Janne Dååe"
                     required
                   />
                 </div>
@@ -90,7 +81,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder="nåtting@gmail.com"
                 required
               />
             </div>
@@ -98,7 +89,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               <Label htmlFor="password">Password</Label>
               {!isRegister && (
                 <Link href="#" className="form-link">
-                  Forgot password?
+               Glömt Lösenordet? Jävla Fyllo.
                 </Link>
               )}
             </div>
@@ -113,34 +104,23 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
                 required
               />
             </div>
-            {isRegister && (
-              <label className="check-row">
-                <input type="checkbox" required />{" "}
-                <span>I agree to the terms and privacy policy</span>
-              </label>
-            )}
+            
           </div>
           <Button type="submit" size="lg" className="auth-submit">
             {submitted
               ? "You’re in"
               : isRegister
-                ? "Create your account"
-                : "Sign in"}{" "}
+                ? "Skapa ditt konto"
+                : "Logga in"}{" "}
             {!submitted && <ArrowRight size={17} />}
           </Button>
         </form>
-        {submitted && (
-          <p className="success-message">
-            {isRegister
-              ? "Your account is ready. You can now sign in."
-              : "You are signed in."}
-          </p>
-        )}
+   
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <p className="auth-switch">
-          {isRegister ? "Already have an account?" : "New to Barsonomy?"}{" "}
+          {isRegister ? "Har du redan ett konto?" : "Ny som Alkis?"}{" "}
           <Link href={isRegister ? "/login" : "/register"}>
-            {isRegister ? "Sign in" : "Create an account"}
+            {isRegister ? "Logga in" : "Skapa konto"}
           </Link>
         </p>
       </section>
