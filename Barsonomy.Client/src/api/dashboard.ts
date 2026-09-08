@@ -1,5 +1,5 @@
 import type { DashboardSummary } from "./api-types";
-import { apiClient } from "./api-client";
+import { apiClient } from "./http-client";
 
 const dashboardUrl = "/api/Dashboard";
 

@@ -8,6 +8,7 @@ public class CreateExpenseDto
     public string Name { get; set; } = string.Empty;
 
     public decimal Amount { get; set; }
+    public DateTime Date { get; set; } = DateTime.UtcNow;
 
     public bool IsMonthly { get; set; } = true;
     public bool IsFixed { get; set; }
@@ -21,6 +22,7 @@ public class ExpenseDto
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public decimal Amount { get; set; }
+    public DateTime Date { get; set; }
     public bool IsMonthly { get; set; }
     public bool IsFixed { get; set; }
     public int CategoryId { get; set; }

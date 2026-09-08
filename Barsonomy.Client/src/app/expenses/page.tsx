@@ -77,10 +77,9 @@ export default function ExpensesPage() {
     ]);
   return (
     <AppShell>
-<ExpensesTopBar />
+      <ExpensesTopBar onAddExpense={addExpense} />
       <main className="content">
-  <ExpenseSummary />
-        
+        <ExpenseSummary />
       </main>
     </AppShell>
   );

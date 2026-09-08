@@ -56,7 +56,7 @@ public class ExpenseController : ControllerBase
         var existingExpense = await _expenseService.GetExpenseAsync(expenseDto.Id, userId);
         if (existingExpense == null)
             return NotFound();
-        var updatedExpense = await _expenseService.UpdateExpenseAsync(expenseDto);
+        var updatedExpense = await _expenseService.UpdateExpenseAsync(expenseDto, userId);
         return Ok(updatedExpense);
     }
 

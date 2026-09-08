@@ -1,5 +1,5 @@
 import type { BeerGoal, CreateBeerRequest } from "./api-types";
-import { apiClient } from "./api-client";
+import { apiClient } from "./http-client";
 
 const beerTargetsUrl = "/api/Beer";
 

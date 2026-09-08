@@ -1,5 +1,5 @@
 import type { CreateExpenseRequest, Expense } from "./api-types";
-import { apiClient } from "./api-client";
+import { apiClient } from "./http-client";
 
 const expensesUrl = "/api/Expense";
 

@@ -1,5 +1,5 @@
 import type { Category } from "./api-types";
-import { apiClient } from "./api-client";
+import { apiClient } from "./http-client";
 
 const categoriesUrl = "/api/Category";
 

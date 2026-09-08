@@ -23,6 +23,7 @@ public class ExpenseService : IExpenseService
         {
             Name = dto.Name,
             Amount = dto.Amount,
+            Date = dto.Date,
             IsMonthly = dto.IsMonthly,
             IsFixed = dto.IsFixed,
             CategoryId = dto.CategoryId,
@@ -49,22 +50,26 @@ public class ExpenseService : IExpenseService
         var expenses = await _context.Expenses
             .Where(e => e.UserId == userId)
             .Include(e => e.Category)
+            .OrderByDescending(e => e.Date)
             .ToListAsync();
         return expenses.Select(e => new ExpenseDto
         {
             Id = e.Id,
             Name = e.Name,
             Amount = e.Amount,
+            Date = e.Date,
             IsMonthly = e.IsMonthly,
             IsFixed = e.IsFixed,
             CategoryId = e.CategoryId,
-            CategoryName = e.Category.Name
+            CategoryName = e.Category?.Name ?? string.Empty
         }).ToArray();
     }
 
     public async Task<ExpenseDto?> GetExpenseAsync(int id, string userId)
     {
-        var expense = await _context.Expenses.FirstOrDefaultAsync(e => e.Id == id && e.UserId == userId);
+        var expense = await _context.Expenses
+            .Include(e => e.Category)
+            .FirstOrDefaultAsync(e => e.Id == id && e.UserId == userId);
 
         if (expense == null)
             return null;
@@ -74,10 +79,11 @@ public class ExpenseService : IExpenseService
             Id = expense.Id,
             Name = expense.Name,
             Amount = expense.Amount,
+            Date = expense.Date,
             IsMonthly = expense.IsMonthly,
             IsFixed = expense.IsFixed,
             CategoryId = expense.CategoryId,
-            CategoryName = expense.Category?.Name
+            CategoryName = expense.Category?.Name ?? string.Empty
         };
     }
 
@@ -90,9 +96,10 @@ public class ExpenseService : IExpenseService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<ExpenseDto> UpdateExpenseAsync(ExpenseDto expenseDto)
+    public async Task<ExpenseDto> UpdateExpenseAsync(ExpenseDto expenseDto, string userId)
     {
-        var expense = await _context.Expenses.FindAsync(expenseDto.Id);
+        var expense = await _context.Expenses
+            .FirstOrDefaultAsync(e => e.Id == expenseDto.Id && e.UserId == userId);
         if (expense == null)
             throw new ArgumentException("Utgiften finns inte.");
 
@@ -101,6 +108,7 @@ public class ExpenseService : IExpenseService
 
         expense.Name = expenseDto.Name;
         expense.Amount = expenseDto.Amount;
+        expense.Date = expenseDto.Date;
         expense.IsMonthly = expenseDto.IsMonthly;
         expense.IsFixed = expenseDto.IsFixed;
         expense.CategoryId = expenseDto.CategoryId;
@@ -113,6 +121,7 @@ public class ExpenseService : IExpenseService
             Id = expense.Id,
             Name = expense.Name,
             Amount = expense.Amount,
+            Date = expense.Date,
             IsMonthly = expense.IsMonthly,
             IsFixed = expense.IsFixed,
             CategoryId = expense.CategoryId,

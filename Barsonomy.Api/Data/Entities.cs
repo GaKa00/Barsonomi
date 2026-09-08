@@ -35,6 +35,7 @@ public class Expense
     public string Name { get; set; } = string.Empty;
 
     public decimal Amount { get; set; }
+    public DateTime Date { get; set; } = DateTime.UtcNow;
     public bool IsMonthly { get; set; } = true;
     public bool IsFixed { get; set; } = false; // Sant för hyra/mat, falskt för prenumerationer
 

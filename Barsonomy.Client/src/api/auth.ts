@@ -1,5 +1,5 @@
 import type { AuthResponse, LoginRequest, RegisterRequest } from "./api-types";
-import { apiClient } from "./api-client";
+import { apiClient } from "./http-client";
 
 const authUrl = "/api/auth";
 const accessTokenKey = "barsonomy.accessToken";

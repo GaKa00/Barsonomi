@@ -32,6 +32,7 @@ export type DashboardSummary = {
 export type CreateExpenseRequest = {
   name: string;
   amount: number;
+  date: string;
   isMonthly: boolean;
   isFixed: boolean;
   categoryId: number;

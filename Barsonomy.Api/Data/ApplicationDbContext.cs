@@ -21,6 +21,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         .HasForeignKey(a => a.UserId)
         .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Entity<Expense>()
+            .Property(e => e.Date)
+            .HasDefaultValueSql("GETUTCDATE()");
+
 
 
         builder.Entity<Category>().HasData(
