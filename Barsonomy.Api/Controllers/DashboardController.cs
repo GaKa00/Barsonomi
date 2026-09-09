@@ -1,4 +1,4 @@
-﻿using Barsonomy.Api.DTOs;
+﻿using Barsonomy.Api.DTO;
 using Barsonomy.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +20,7 @@ namespace Barsonomy.Api.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<ExpenseDto[]>> GetExpenses()
+        public async Task<ActionResult<DashboardSummaryDto>> GetExpenses()
         {
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

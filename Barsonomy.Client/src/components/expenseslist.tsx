@@ -17,7 +17,7 @@ export default function ExpensesList() {
             </div>
             <div className="toolbar-actions">
               <button className="filter-button">
-                <CalendarDays size={16} /> This month <ChevronDown size={14} />
+                <CalendarDays size={16} />  Denna månad <ChevronDown size={14} />
               </button>
               <button className="filter-button">
                 <SlidersHorizontal size={16} /> Filter
@@ -36,7 +36,7 @@ export default function ExpensesList() {
                   <th>
                     Date <ArrowDownUp size={13} />
                   </th>
-                  <th className="align-right">Amount</th>
+                  <th className="align-right">Antal</th>
                 </tr>
               </thead>
               <tbody>
@@ -64,7 +64,7 @@ export default function ExpensesList() {
             <div className="empty-state">No expenses match your search.</div>
           )}
           <div className="table-footer">
-            Showing {filtered.length} of {expenses.length} expenses{" "}
+            {filtered.length} av {expenses.length}Bärs {" "}
             <span>Page 1 of 1</span>
           </div>
         </Card>

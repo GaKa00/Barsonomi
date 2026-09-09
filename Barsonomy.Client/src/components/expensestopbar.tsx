@@ -10,15 +10,15 @@ export default function ExpensesTopBar({ onAddExpense }: ExpensesTopBarProps) {
     <div>
       <header className="topbar">
         <div>
-          <p className="eyebrow">TRANSACTIONS</p>
-          <h1>Expenses</h1>
+          <p className="eyebrow">Bärsdata</p>
+          <h1>Bjudöl</h1>
           <p className="page-intro">
-            Keep a clear view of where your money goes.
+           Håll koll på hur många bjudöl du är skyldig, klart Hyresvärden ska dricka!
           </p>
         </div>
         <Button onClick={onAddExpense}>
           <Plus size={17} />
-          Add expense
+          Lägg till Bjudöl.
         </Button>
       </header>
     </div>

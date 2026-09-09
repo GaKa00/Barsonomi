@@ -1,40 +1,92 @@
+"use client";
+
 import { ArrowUpRight, CreditCard, TrendingUp, Wallet } from "lucide-react";
+import { useEffect, useState } from "react";
+import { dashboardApi } from "@/api/dashboard";
+import { expensesApi } from "@/api/expenses";
+import type { DashboardSummary, Expense } from "@/api/api-types";
 import { Card, CardContent } from "./ui/card";
 
+const formatBeers = (value: number) => `${value.toFixed(1)} bärs`;
+
 export default function UserStatistics() {
+  const [summary, setSummary] = useState<DashboardSummary | null>(null);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+
+  useEffect(() => {
+    Promise.all([dashboardApi.get(), expensesApi.list()])
+      .then(([dashboard, userExpenses]) => {
+        setSummary(dashboard);
+        setExpenses(userExpenses);
+      })
+      .catch(() => setSummary(null));
+  }, []);
+
+  if (!summary) {
     return (
-      <div>
-        <section className="stat-grid">
-          <Card className="balance-card">
-            <CardContent>
-              <div className="stat-label">
-                <Wallet size={18} /> Total balance
-              </div>
-              <div className="stat-value">$12,680.24</div>
-              <div className="stat-foot positive">
-                <TrendingUp size={15} /> 8.2% <span>from last month</span>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent>
-              <div className="stat-label">
-                <ArrowUpRight size={18} /> This month
-              </div>
-              <div className="stat-value">$2,418.60</div>
-              <div className="stat-foot">42 transactions</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent>
-              <div className="stat-label">
-                <CreditCard size={18} /> Upcoming bills
-              </div>
-              <div className="stat-value">$680.00</div>
-              <div className="stat-foot">Due in the next 7 days</div>
-            </CardContent>
-          </Card>
-        </section>
-      </div>
+      <section className="stat-grid" aria-label="Beer statistics">
+         Letar efter öl...
+      </section>
     );
+  }
+
+  const beerPrice = summary.beerPriceSek;
+  const monthStart = new Date();
+  monthStart.setDate(1);
+  monthStart.setHours(0, 0, 0, 0);
+  const nextMonthStart = new Date(monthStart);
+  nextMonthStart.setMonth(nextMonthStart.getMonth() + 1);
+  const monthlyExpenses = expenses.filter((expense) => {
+    const expenseDate = new Date(expense.date);
+    return expenseDate >= monthStart && expenseDate < nextMonthStart;
+  });
+  const monthlySubscriptions = expenses.filter(
+    (expense) => expense.isMonthly && !expense.isFixed,
+  );
+  const monthlySpentBeers =
+    monthlyExpenses.reduce((total, expense) => total + expense.amount, 0) /
+    beerPrice;
+  const upcomingBillsBeers =
+    monthlySubscriptions.reduce((total, expense) => total + expense.amount, 0) /
+    beerPrice;
+
+  return (
+    <div>
+      <section className="stat-grid">
+        <Card className="balance-card">
+          <CardContent>
+            <div className="stat-label">
+              <Wallet size={18} /> Bärskonto
+            </div>
+            <div className="stat-value">
+              {formatBeers(summary.remainingIncomeSek / beerPrice)}
+            </div>
+            <div className="stat-foot positive">
+              <TrendingUp size={15} />{" "}
+              {formatBeers(summary.monthlyIncomeSek / beerPrice)}{" "}
+              <span>monthly budget</span>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent>
+            <div className="stat-label">
+              <ArrowUpRight size={18} /> Öl denna månad
+            </div>
+            <div className="stat-value">{formatBeers(monthlySpentBeers)}</div>
+        
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent>
+            <div className="stat-label">
+              <CreditCard size={18} /> Bjudöl per månad
+            </div>
+            <div className="stat-value">{formatBeers(upcomingBillsBeers)}</div>
+            <div className="stat-foot">{monthlySubscriptions.length} Bjudöl</div>
+          </CardContent>
+        </Card>
+      </section>
+    </div>
+  );
 }
