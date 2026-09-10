@@ -32,5 +32,20 @@ namespace Barsonomy.Api.Controllers
 
             return Ok(expenses);
         }
+
+        [HttpPut]
+        public async Task<ActionResult<DashboardSummaryDto>> UpdateSettings(UpdateDashboardSettingsDto dto)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            if (dto.MonthlyIncomeSek <= 0 || dto.BeerPriceSek <= 0)
+                return BadRequest("Monthly income and beer price must be greater than zero.");
+
+            var settings = await _dashboardService.UpdateDashboardSettingsAsync(userId, dto);
+            return Ok(settings);
+        }
     }
 }

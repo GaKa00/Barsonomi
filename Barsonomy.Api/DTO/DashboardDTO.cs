@@ -1,5 +1,11 @@
 ﻿namespace Barsonomy.Api.DTO
 {
+    public class UpdateDashboardSettingsDto
+    {
+        public decimal MonthlyIncomeSek { get; set; }
+        public decimal BeerPriceSek { get; set; }
+    }
+
     public class DashboardSummaryDto
     {
         public decimal MonthlyIncomeSek { get; set; } // Monthly income in SEK, connected to the user

@@ -1,32 +1,57 @@
 import { Card } from "./ui/card";
 
-export default function ExpenseSummary() {
+type ExpenseSummaryProps = {
+  monthlyTotal: number;
+  monthlyBudget: number;
+  largestCategory: string;
+  largestCategoryTotal: number;
+};
+
+const formatCurrency = (value: number) =>
+  value.toLocaleString("sv-SE", { style: "currency", currency: "SEK" });
+
+export default function ExpenseSummary({
+  monthlyTotal,
+  monthlyBudget,
+  largestCategory,
+  largestCategoryTotal,
+}: ExpenseSummaryProps) {
+  const budgetProgress =
+    monthlyBudget > 0 ? Math.min((monthlyTotal / monthlyBudget) * 100, 100) : 0;
+
   return (
     <div>
       <section className="expense-summary">
         <Card>
-          <div className="summary-label">Total spent this month</div>
-          <div className="summary-value">$2,418.60</div>
+          <div className="summary-label">Bärs denna månad</div>
+          <div className="summary-value">{formatCurrency(monthlyTotal)}</div>
           <div className="progress">
-            <span />
+            <span style={{ width: `${budgetProgress}%` }} />
           </div>
           <div className="summary-meta">
-            <span>68% of your $3,550 budget</span>
-            <strong>$1,131.40 left</strong>
+            <span>
+              {Math.round(budgetProgress)}% of your{" "}
+              {formatCurrency(monthlyBudget)} budget
+            </span>
+            <strong>
+              {formatCurrency(Math.max(monthlyBudget - monthlyTotal, 0))} left
+            </strong>
           </div>
         </Card>
         <Card>
-          <div className="summary-label">Average daily spend</div>
-          <div className="summary-value">$93.02</div>
+          <div className="summary-label">Genomsnittligt dagligt uttag</div>
+          <div className="summary-value">
+            {formatCurrency(monthlyTotal / Math.max(new Date().getDate(), 1))}
+          </div>
           <div className="summary-meta">
-            <span className="positive">↓ 12.4% vs July</span>
+            <span>Daily average this month</span>
           </div>
         </Card>
         <Card>
           <div className="summary-label">Largest category</div>
-          <div className="summary-value">Groceries</div>
+          <div className="summary-value">{largestCategory}</div>
           <div className="summary-meta">
-            <span>$681.20 this month</span>
+            <span>{formatCurrency(largestCategoryTotal)} this month</span>
           </div>
         </Card>
       </section>

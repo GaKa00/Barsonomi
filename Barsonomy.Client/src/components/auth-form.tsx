@@ -27,7 +27,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
     try {
       if (isRegister) {
         await api.auth.register({ email, password });
-        router.replace("/login");
+        await api.auth.login({ email, password });
+        router.replace("/setup");
       } else {
         await api.auth.login({ email, password });
         router.replace("/dashboard");
@@ -45,17 +46,13 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
 
   return (
     <main className="auth-page">
-
       <section className="auth-panel">
         <AuthLogo />
         <div className="auth-copy">
-      
-          <h1>
-           Enklare Ekonomi  --
-            Av Alkoholister, För Alkoholister
-          </h1>
+          <h1>Enklare Ekonomi -- Av Alkoholister, För Alkoholister</h1>
           <p>
-          Inget mer krångel med att hålla koll på dina utgifter. Vi snackar i den enda valutan som betyder något. Skål!
+            Inget mer krångel med att hålla koll på dina utgifter. Vi snackar i
+            den enda valutan som betyder något. Skål!
           </p>
         </div>
         <form className="auth-form" onSubmit={handleSubmit}>
@@ -89,7 +86,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               <Label htmlFor="password">Password</Label>
               {!isRegister && (
                 <Link href="#" className="form-link">
-               Glömt Lösenordet? Jävla Fyllo.
+                  Glömt Lösenordet? Jävla Fyllo.
                 </Link>
               )}
             </div>
@@ -104,7 +101,6 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
                 required
               />
             </div>
-            
           </div>
           <Button type="submit" size="lg" className="auth-submit">
             {submitted
@@ -115,7 +111,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             {!submitted && <ArrowRight size={17} />}
           </Button>
         </form>
-   
+
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <p className="auth-switch">
           {isRegister ? "Har du redan ett konto?" : "Ny som Alkis?"}{" "}

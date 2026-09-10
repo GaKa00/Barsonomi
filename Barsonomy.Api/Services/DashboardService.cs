@@ -46,4 +46,20 @@ public class DashboardService : IDashboardService
             TotalSubscriptionsSek = totalSubscriptions
         };
     }
+
+    public async Task<DashboardSummaryDto> UpdateDashboardSettingsAsync(
+        string userId,
+        UpdateDashboardSettingsDto dto)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user == null)
+            throw new InvalidOperationException("User not found");
+
+        user.MonthlyIncomeSek = dto.MonthlyIncomeSek;
+        user.BeerPriceSek = dto.BeerPriceSek;
+        await _context.SaveChangesAsync();
+
+        return await GetDashboardDataAsync(userId);
+    }
 }

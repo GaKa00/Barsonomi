@@ -718,6 +718,147 @@ td {
     11px Arial,
     sans-serif;
 }
+.modal-backdrop {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(24, 37, 43, 0.48);
+}
+.expense-modal {
+  width: min(460px, 100%);
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 22px 70px rgba(24, 37, 43, 0.2);
+}
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.modal-header .eyebrow {
+  margin-bottom: 8px;
+}
+.modal-header h2 {
+  margin: 0;
+  font-size: 27px;
+  letter-spacing: -0.04em;
+}
+.expense-form {
+  display: grid;
+  gap: 17px;
+}
+.expense-form > label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font:
+    11px Arial,
+    sans-serif;
+  font-weight: 700;
+}
+.expense-form select {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: white;
+  font:
+    14px Georgia,
+    "Times New Roman",
+    serif;
+  outline: none;
+}
+.expense-form select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+.checkbox-group {
+  display: grid;
+  gap: 10px;
+  padding: 4px 0;
+}
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+  font:
+    13px Arial,
+    sans-serif;
+  cursor: pointer;
+}
+.checkbox-label input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  padding-top: 7px;
+}
+.setup-page {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 24px;
+  background: var(--paper);
+}
+.settings-panel {
+  width: min(520px, 100%);
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 18px 50px rgba(24, 37, 43, 0.08);
+}
+.settings-heading h1 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: -0.05em;
+}
+.settings-heading > p:last-child {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.45;
+}
+.settings-form {
+  display: grid;
+  gap: 17px;
+  margin-top: 26px;
+}
+.settings-form > label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font:
+    11px Arial,
+    sans-serif;
+  font-weight: 700;
+}
+.settings-form button {
+  width: 100%;
+  margin-top: 4px;
+}
+.settings-message {
+  margin: 0;
+  color: var(--green);
+  text-align: center;
+  font:
+    12px Arial,
+    sans-serif;
+}
 @media (max-width: 800px) {
   .sidebar {
     width: 68px;
@@ -790,5 +931,11 @@ td {
   }
   .auth-copy {
     margin-top: 58px;
+  }
+  .expense-modal {
+    padding: 22px;
+  }
+  .settings-panel {
+    padding: 24px;
   }
 }

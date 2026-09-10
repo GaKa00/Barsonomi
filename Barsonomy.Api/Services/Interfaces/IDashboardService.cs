@@ -6,5 +6,6 @@ namespace Barsonomy.Api.Services.Interfaces
     public interface IDashboardService
     {
         Task<DashboardSummaryDto> GetDashboardDataAsync(string userId);
+        Task<DashboardSummaryDto> UpdateDashboardSettingsAsync(string userId, UpdateDashboardSettingsDto dto);
     }
 }

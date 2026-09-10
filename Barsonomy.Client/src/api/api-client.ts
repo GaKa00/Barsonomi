@@ -46,6 +46,8 @@ export const api = {
   dashboard: {
     get: (...args: Parameters<typeof dashboardApi.get>) =>
       dashboardApi.get(...args),
+    update: (...args: Parameters<typeof dashboardApi.update>) =>
+      dashboardApi.update(...args),
   },
   expenses: {
     list: (...args: Parameters<typeof expensesApi.list>) =>

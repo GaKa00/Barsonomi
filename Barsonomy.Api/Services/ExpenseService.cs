@@ -38,6 +38,7 @@ public class ExpenseService : IExpenseService
             Id = expense.Id,
             Name = expense.Name,
             Amount = expense.Amount,
+            Date = expense.Date,
             IsMonthly = expense.IsMonthly,
             IsFixed = expense.IsFixed,
             CategoryId = expense.CategoryId,

@@ -29,6 +29,11 @@ export type DashboardSummary = {
   remainingIncomeSek: number;
 };
 
+export type UpdateDashboardSettingsRequest = {
+  monthlyIncomeSek: number;
+  beerPriceSek: number;
+};
+
 export type CreateExpenseRequest = {
   name: string;
   amount: number;
