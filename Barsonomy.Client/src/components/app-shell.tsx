@@ -32,28 +32,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="app-frame">
-      <aside className="sidebar">
-        <Link href="/dashboard" className="brand">
-          <span className="brand-mark">
-            <Sparkles size={18} />
-          </span>
-          <span>Bärsonomi</span>
-        </Link>
-     
-        <nav className="side-nav" aria-label="Main navigation">
-          {navItems.map(({ href, label, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className={cn("side-link", pathname === href && "active")}
-            >
-              <Icon size={18} />
-              {label}
-            </Link>
-          ))}
-        </nav>
-      </aside>
-      <div className="main-area">{children}</div>
+      <h1> Bärsonomi</h1>
+      <div className="main-area"> {children}</div>
     </div>
   );
 }

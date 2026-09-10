@@ -7,7 +7,7 @@ import { expensesApi } from "@/api/expenses";
 import type { DashboardSummary, Expense } from "@/api/api-types";
 import { Card, CardContent } from "./ui/card";
 
-const formatBeers = (value: number) => `${value.toFixed(1)} bärs`;
+const formatBeers = (value: number) => `${value.toFixed(1)} 🍺`;
 
 export default function UserStatistics() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
@@ -61,6 +61,10 @@ export default function UserStatistics() {
             <div className="stat-value">
               {formatBeers(summary.remainingIncomeSek / beerPrice)}
             </div>
+            <span className="stat-foot">
+              {summary.monthlyIncomeSek + " Kr"}
+            </span>
+
             <div className="stat-foot positive">
               <TrendingUp size={15} />{" "}
               {formatBeers(summary.monthlyIncomeSek / beerPrice)}{" "}
@@ -74,7 +78,9 @@ export default function UserStatistics() {
               <ArrowUpRight size={18} /> Öl denna månad
             </div>
             <div className="stat-value">{formatBeers(monthlySpentBeers)}</div>
-        
+            <span className="stat-foot">
+              {monthlySpentBeers * beerPrice + " Kr -  Spenderade"}
+            </span>
           </CardContent>
         </Card>
         <Card>
@@ -83,7 +89,15 @@ export default function UserStatistics() {
               <CreditCard size={18} /> Bjudöl per månad
             </div>
             <div className="stat-value">{formatBeers(upcomingBillsBeers)}</div>
-            <div className="stat-foot">{monthlySubscriptions.length} Bjudöl</div>
+            <div className = "flex space-x-3">
+
+            <div className="stat-foot">
+              {monthlySubscriptions.length}  Prenumeration
+            </div>
+            <span className="stat-foot">
+              {" - " + upcomingBillsBeers * beerPrice + " Kr"}
+            </span>
+            </div>
           </CardContent>
         </Card>
       </section>

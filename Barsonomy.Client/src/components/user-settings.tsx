@@ -64,17 +64,17 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
   return (
     <section className="settings-panel">
       <div className="settings-heading">
-        <p className="eyebrow">{isSetup ? "One last thing" : "Your numbers"}</p>
-        <h1>{isSetup ? "Set up your beer maths" : "Money & beer price"}</h1>
+   
+        <h1>{ isSetup ? "Ställ in dina uppgifter" : "Ändra dina uppgifter" }</h1>
         <p>
           {isSetup
-            ? "Tell us what your month looks like so the dashboard can speak your language."
-            : "Keep these values current so your beer budget stays useful."}
+            ? "Berätta oss om din ekonomi så vi kan räkna ut hur mycket bärs du har råd med."
+            : "Blivigt fattigare? Eller har inflationen slagit emot biran? Ändra dina uppgifter här."}
         </p>
       </div>
       <form className="settings-form" onSubmit={handleSubmit}>
         <label>
-          Total monthly money in SEK
+          Hur många riksdaler har du i ägo?
           <Input
             required
             min="0.01"
@@ -86,7 +86,7 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
           />
         </label>
         <label>
-          Beer price in SEK
+         Vad kostar bärsen?
           <Input
             required
             min="0.01"
@@ -105,8 +105,8 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
           {isSaving
             ? "Saving..."
             : isSetup
-              ? "Save and continue"
-              : "Save settings"}
+              ? "Spara inställningar"
+              : "Spara ändringar"}
         </Button>
         {message && (
           <p className="settings-message" role="status">
