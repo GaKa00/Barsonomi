@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { dashboardApi } from "@/api/dashboard";
 import type { DashboardSummary } from "@/api/api-types";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
+  const router = useRouter();
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [monthlyIncome, setMonthlyIncome] = useState("");
   const [beerPrice, setBeerPrice] = useState("");
@@ -50,7 +52,7 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
       setSummary(updatedSummary);
       setMessage("Settings saved.");
       if (isSetup) {
-        window.location.assign("/dashboard");
+        router.push("/dashboard");
       }
     } catch {
       setMessage("Could not save your settings.");
