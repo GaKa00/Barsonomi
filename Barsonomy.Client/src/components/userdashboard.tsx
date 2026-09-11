@@ -21,7 +21,7 @@ export default function UserDashboard() {
   return (
     <div>
       <section className="dashboard-grid">
-        <UserSpending />
+        {/* <UserSpending /> */}
         <Card className="recent-card">
           <CardHeader>
             <div className="card-heading">

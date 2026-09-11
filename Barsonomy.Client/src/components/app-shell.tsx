@@ -7,8 +7,8 @@ import { LayoutDashboard, Receipt, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
-  { href: "/expenses", label: "Expenses", icon: Receipt },
+  { href: "/dashboard", label: "Översikt", icon: LayoutDashboard },
+  { href: "/expenses", label: "Bjudöl", icon: Receipt },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {

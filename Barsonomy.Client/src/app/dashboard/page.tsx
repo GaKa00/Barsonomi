@@ -7,6 +7,7 @@ export default function DashboardPage() {
   return (
     <AppShell>
       <main className="content">
+        <h1 className="eyebrow"> Bärsonomi</h1>
         <UserSettings />
         <UserStatistics />
         <UserDashboard />

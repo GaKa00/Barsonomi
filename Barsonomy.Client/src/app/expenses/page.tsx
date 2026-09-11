@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { X } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import ExpensesList from "@/components/expenseslist";
 import ExpensesTopBar from "@/components/expensestopbar";
 import ExpenseSummary from "@/components/expensesummary";
+import ExpenseModal, { type ExpenseFormState } from "@/components/expensemodal";
 import { expensesApi } from "@/api/expenses";
 import { dashboardApi } from "@/api/dashboard";
 import { categoriesApi } from "@/api/categories";
@@ -21,7 +19,7 @@ export default function ExpensesPage() {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<ExpenseFormState>({
     name: "",
     amount: "",
     categoryId: "",
@@ -139,115 +137,14 @@ export default function ExpensesPage() {
         )}
       </main>
       {isModalOpen && (
-        <div className="modal-backdrop" onMouseDown={closeAddExpenseModal}>
-          <section
-            className="expense-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="add-expense-title"
-            onMouseDown={(event) => event.stopPropagation()}
-          >
-            <div className="modal-header">
-              <div>
-                <p className="eyebrow">Ny utgift</p>
-                <h2 id="add-expense-title">Lägg till Bjudöl</h2>
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                aria-label="Close dialog"
-                onClick={closeAddExpenseModal}
-              >
-                <X size={18} />
-              </Button>
-            </div>
-            <form className="expense-form" onSubmit={addExpense}>
-              <label>
-                Titel
-                <Input
-                  required
-                  autoFocus
-                  value={form.name}
-                  onChange={(event) =>
-                    setForm({ ...form, name: event.target.value })
-                  }
-                  placeholder="Rent, groceries, savings..."
-                />
-              </label>
-              <label>
-               Antal Kronor
-                <Input
-                  required
-                  min="0.01"
-                  step="0.01"
-                  type="number"
-                  value={form.amount}
-                  onChange={(event) =>
-                    setForm({ ...form, amount: event.target.value })
-                  }
-                  placeholder="0.00"
-                />
-              </label>
-              <label>
-               Kategori
-                <select
-                  required
-                  value={form.categoryId}
-                  onChange={(event) =>
-                    setForm({ ...form, categoryId: event.target.value })
-                  }
-                >
-                  <option value="" disabled>
-                   Välj Kategori
-                  </option>
-                  {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.icon} {category.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <div className="checkbox-group">
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    checked={form.isMonthly}
-                    onChange={(event) =>
-                      setForm({ ...form, isMonthly: event.target.checked })
-                    }
-                  />
-                Prenumeration?
-                </label>
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    checked={form.isFixed}
-                    onChange={(event) =>
-                      setForm({ ...form, isFixed: event.target.checked })
-                    }
-                  />
-                  Nödvändig Utgift ( t.ex. hyra, el, internet)
-                </label>
-              </div>
-              <div className="modal-actions">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={closeAddExpenseModal}
-                >
-                  Avbryt
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={isSaving || categories.length === 0}
-                >
-                  {isSaving ? "Saving..." : "Add expense"}
-                </Button>
-              </div>
-            </form>
-          </section>
-        </div>
+        <ExpenseModal
+          closeAddExpenseModal={closeAddExpenseModal}
+          form={form}
+          setForm={setForm}
+          addExpense={addExpense}
+          categories={categories}
+          isSaving={isSaving}
+        />
       )}
     </AppShell>
   );

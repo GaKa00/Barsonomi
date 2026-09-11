@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #18252b;
-  --muted: #758186;
-  --muted-light: #aab3b6;
-  --paper: #f5f7f5;
-  --line: #e5e9e7;
-  --accent: #df684c;
-  --accent-strong: #bd5038;
-  --accent-soft: #fff0e9;
-  --mint: #dceee6;
-  --green: #37886f;
-  --navy: #1f353c;
+  --ink: #173d2d;
+  --muted: #668074;
+  --muted-light: #9bb0a4;
+  --paper: #fbfdf9;
+  --line: #dce9df;
+  --accent: #e8b923;
+  --accent-strong: #b98900;
+  --accent-soft: #fff7d6;
+  --mint: #dff1e5;
+  --green: #25804f;
+  --navy: #17452f;
 }
 
 * {
@@ -44,7 +44,7 @@ input {
   width: 252px;
   padding: 32px 18px 20px;
   background: var(--navy);
-  color: #dce7e4;
+  color: #e8f5eb;
 }
 .brand {
   display: inline-flex;
@@ -67,7 +67,7 @@ input {
 }
 .workspace-label {
   margin: 58px 12px 14px;
-  color: #83979a;
+  color: #9bc4a8;
   font:
     10px/1.2 Arial,
     sans-serif;
@@ -77,7 +77,7 @@ input {
 .workspace-label span {
   float: right;
   font-size: 9px;
-  color: #678084;
+  color: #78a88a;
 }
 .side-nav {
   display: grid;
@@ -89,7 +89,7 @@ input {
   gap: 12px;
   padding: 11px 13px;
   border-radius: 8px;
-  color: #9eb0b0;
+  color: #acd0b7;
   font:
     14px Arial,
     sans-serif;
@@ -122,8 +122,8 @@ input {
   height: 34px;
   place-items: center;
   border-radius: 50%;
-  background: #efb7a4;
-  color: #633b31;
+  background: #f4d76a;
+  color: #5c4700;
   font-size: 11px;
   font-weight: 700;
 }
@@ -137,12 +137,12 @@ input {
 }
 .profile small {
   margin-top: 3px;
-  color: #91a2a3;
+  color: #9bc4a8;
   font-size: 11px;
 }
 .profile-logout {
   margin-left: auto;
-  color: #7d9193;
+  color: #8db49a;
 }
 .main-area {
   min-width: 0;
@@ -213,7 +213,7 @@ input {
     sans-serif;
 }
 .balance-card .stat-label {
-  color: #52766e;
+  color: #397254;
 }
 .stat-value {
   margin: 20px 0 12px;
@@ -309,7 +309,7 @@ input {
     to bottom,
     transparent 0,
     transparent 41px,
-    #edf0ee 42px
+    #e4efe6 42px
   );
 }
 .bar-wrap {
@@ -329,7 +329,7 @@ input {
   width: min(30px, 55%);
   min-height: 12px;
   border-radius: 5px 5px 0 0;
-  background: #c8ded6;
+  background: #b9dfc4;
 }
 .bar.current {
   background: var(--accent);
@@ -381,9 +381,9 @@ input {
   align-items: center;
   gap: 15px;
   padding: 16px 20px;
-  border: 1px solid #edd9cc;
+  border: 1px solid #eadb9b;
   border-radius: 14px;
-  background: #fffaf5;
+  background: #fffdf1;
 }
 .insight-icon {
   display: grid;
@@ -392,8 +392,8 @@ input {
   height: 36px;
   place-items: center;
   border-radius: 10px;
-  color: var(--accent);
-  background: #ffe5d6;
+  color: #967300;
+  background: #fff0ad;
 }
 .insight strong {
   font-size: 14px;
@@ -432,7 +432,7 @@ input {
   margin: 14px 0 8px;
   overflow: hidden;
   border-radius: 10px;
-  background: #f1e3db;
+  background: #edf2d4;
 }
 .progress span {
   display: block;
@@ -498,7 +498,7 @@ table {
 th {
   padding: 13px 22px;
   color: var(--muted);
-  background: #fafbfa;
+  background: #f7fbf7;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -522,30 +522,30 @@ td {
   height: 32px;
 }
 .merchant-icon.green {
-  color: #37886f;
-  background: #e5f3ed;
+  color: #26764b;
+  background: #e1f3e5;
 }
 .merchant-icon.orange {
-  color: #c56b3b;
-  background: #fff0e3;
+  color: #9a7700;
+  background: #fff5c9;
 }
 .merchant-icon.purple {
-  color: #8170a9;
-  background: #f0ebfa;
+  color: #5e8a69;
+  background: #e7f4e8;
 }
 .merchant-icon.blue {
-  color: #557fa3;
-  background: #e9f1f8;
+  color: #3f7c58;
+  background: #e3f2e7;
 }
 .merchant-icon.red {
-  color: #c26767;
-  background: #fbeaea;
+  color: #a27600;
+  background: #fff4c4;
 }
 .category-pill {
   padding: 5px 9px;
   border-radius: 20px;
   color: var(--muted);
-  background: #f2f5f3;
+  background: #edf6ee;
   font-size: 10px;
 }
 .muted-cell {
@@ -595,8 +595,8 @@ td {
   inset: 0;
   opacity: 0.18;
   background-image:
-    linear-gradient(#dce7e4 1px, transparent 1px),
-    linear-gradient(90deg, #dce7e4 1px, transparent 1px);
+    linear-gradient(#c8e4ce 1px, transparent 1px),
+    linear-gradient(90deg, #c8e4ce 1px, transparent 1px);
   background-size: 48px 48px;
   transform: perspective(500px) rotateX(55deg) scale(1.5);
 }
@@ -607,7 +607,7 @@ td {
   border-radius: 2px;
   box-shadow: 12px 17px 0 rgba(0, 0, 0, 0.15);
   color: var(--ink);
-  background: #f5c89c;
+  background: #f4d76a;
   font-size: 22px;
   transform: rotate(-7deg);
 }
@@ -618,7 +618,7 @@ td {
 .note-two {
   right: 14%;
   bottom: 25%;
-  background: #c9e7d9;
+  background: #bde3c7;
   transform: rotate(6deg);
 }
 .note-two span {
