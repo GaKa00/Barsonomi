@@ -164,7 +164,7 @@ export default function ExpensesPage() {
             </div>
             <form className="expense-form" onSubmit={addExpense}>
               <label>
-                Name
+                Titel
                 <Input
                   required
                   autoFocus
@@ -176,7 +176,7 @@ export default function ExpensesPage() {
                 />
               </label>
               <label>
-                Amount in SEK
+               Antal Kronor
                 <Input
                   required
                   min="0.01"
@@ -190,7 +190,7 @@ export default function ExpensesPage() {
                 />
               </label>
               <label>
-                Category
+               Kategori
                 <select
                   required
                   value={form.categoryId}
@@ -199,7 +199,7 @@ export default function ExpensesPage() {
                   }
                 >
                   <option value="" disabled>
-                    Choose a category
+                   Välj Kategori
                   </option>
                   {categories.map((category) => (
                     <option key={category.id} value={category.id}>
@@ -217,7 +217,7 @@ export default function ExpensesPage() {
                       setForm({ ...form, isMonthly: event.target.checked })
                     }
                   />
-                  Monthly subscription
+                Prenumeration?
                 </label>
                 <label className="checkbox-label">
                   <input
@@ -227,7 +227,7 @@ export default function ExpensesPage() {
                       setForm({ ...form, isFixed: event.target.checked })
                     }
                   />
-                  Necessity, like rent or food
+                  Nödvändig Utgift ( t.ex. hyra, el, internet)
                 </label>
               </div>
               <div className="modal-actions">
@@ -236,7 +236,7 @@ export default function ExpensesPage() {
                   variant="outline"
                   onClick={closeAddExpenseModal}
                 >
-                  Cancel
+                  Avbryt
                 </Button>
                 <Button
                   type="submit"
