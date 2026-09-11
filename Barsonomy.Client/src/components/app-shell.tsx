@@ -3,13 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import {
-  LayoutDashboard,
-  LogOut,
-  Receipt,
-  Settings,
-  Sparkles,
-} from "lucide-react";
+import { LayoutDashboard, Receipt, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -32,7 +26,28 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="app-frame">
-      <h1> Bärsonomi</h1>
+      <aside className="sidebar">
+        <Link href="/dashboard" className="brand">
+          <span className="brand-mark">
+            <Sparkles size={18} />
+          </span>
+          <span>Bärsonomi</span>
+        </Link>
+        <p className="workspace-label">WORKSPACE</p>
+        <nav className="side-nav" aria-label="Main navigation">
+          {navItems.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className={cn("side-link", pathname === href && "active")}
+              aria-current={pathname === href ? "page" : undefined}
+            >
+              <Icon size={18} />
+              <span>{label}</span>
+            </Link>
+          ))}
+        </nav>
+      </aside>
       <div className="main-area"> {children}</div>
     </div>
   );

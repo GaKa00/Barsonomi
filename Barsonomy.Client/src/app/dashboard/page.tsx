@@ -7,9 +7,9 @@ export default function DashboardPage() {
   return (
     <AppShell>
       <main className="content">
+        <UserSettings />
         <UserStatistics />
         <UserDashboard />
-        <UserSettings />
       </main>
     </AppShell>
   );

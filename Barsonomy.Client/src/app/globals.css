@@ -822,6 +822,18 @@ td {
   background: white;
   box-shadow: 0 18px 50px rgba(24, 37, 43, 0.08);
 }
+.settings-trigger {
+  display: flex;
+  justify-content: flex-end;
+}
+.settings-modal .settings-heading h2 {
+  margin: 0;
+  font-size: 27px;
+  letter-spacing: -0.04em;
+}
+.settings-modal .settings-heading > p:last-child {
+  margin-top: 9px;
+}
 .settings-heading h1 {
   margin: 0;
   font-size: 30px;

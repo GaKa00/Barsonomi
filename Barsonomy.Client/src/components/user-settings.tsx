@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Settings, X } from "lucide-react";
 import { dashboardApi } from "@/api/dashboard";
 import type { DashboardSummary } from "@/api/api-types";
 import { Button } from "./ui/button";
@@ -15,6 +16,7 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(isSetup);
 
   useEffect(() => {
     dashboardApi
@@ -61,11 +63,21 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
     }
   }
 
-  return (
+  if (!isSetup && !isOpen) {
+    return (
+      <div className="settings-trigger">
+        <Button variant="outline" onClick={() => setIsOpen(true)}>
+          <Settings size={17} />
+          Ändra inställningar
+        </Button>
+      </div>
+    );
+  }
+
+  return isSetup ? (
     <section className="settings-panel">
       <div className="settings-heading">
-   
-        <h1>{ isSetup ? "Ställ in dina uppgifter" : "Ändra dina uppgifter" }</h1>
+        <h1>{isSetup ? "Ställ in dina uppgifter" : "Ändra dina uppgifter"}</h1>
         <p>
           {isSetup
             ? "Berätta oss om din ekonomi så vi kan räkna ut hur mycket bärs du har råd med."
@@ -86,7 +98,7 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
           />
         </label>
         <label>
-         Vad kostar bärsen?
+          Vad kostar bärsen?
           <Input
             required
             min="0.01"
@@ -115,5 +127,80 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
         )}
       </form>
     </section>
+  ) : (
+    <div
+      className="modal-backdrop"
+      onMouseDown={() => !isSaving && setIsOpen(false)}
+    >
+      <section
+        className="expense-modal settings-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settings-title"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <div className="modal-header">
+          <div className="settings-heading">
+            <p className="eyebrow">Inställningar</p>
+            <h2 id="settings-title">Ändra dina uppgifter</h2>
+            <p>Uppdatera din inkomst och bärspris.</p>
+          </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label="Close settings"
+            onClick={() => !isSaving && setIsOpen(false)}
+          >
+            <X size={18} />
+          </Button>
+        </div>
+        <form className="settings-form" onSubmit={handleSubmit}>
+          <label>
+            Hur många riksdaler har du i ägo?
+            <Input
+              required
+              autoFocus
+              min="0.01"
+              step="0.01"
+              type="number"
+              value={monthlyIncome}
+              onChange={(event) => setMonthlyIncome(event.target.value)}
+              disabled={isLoading || isSaving}
+            />
+          </label>
+          <label>
+            Vad kostar bärsen?
+            <Input
+              required
+              min="0.01"
+              step="0.01"
+              type="number"
+              value={beerPrice}
+              onChange={(event) => setBeerPrice(event.target.value)}
+              disabled={isLoading || isSaving}
+            />
+          </label>
+          <div className="modal-actions">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsOpen(false)}
+              disabled={isSaving}
+            >
+              Avbryt
+            </Button>
+            <Button type="submit" disabled={isLoading || isSaving || !summary}>
+              {isSaving ? "Saving..." : "Spara ändringar"}
+            </Button>
+          </div>
+          {message && (
+            <p className="settings-message" role="status">
+              {message}
+            </p>
+          )}
+        </form>
+      </section>
+    </div>
   );
 }
