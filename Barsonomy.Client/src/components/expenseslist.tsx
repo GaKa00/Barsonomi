@@ -6,9 +6,11 @@ import {
   CalendarDays,
   ChevronDown,
   Download,
+  Pencil,
   Receipt,
   Search,
   SlidersHorizontal,
+  Trash2,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
@@ -16,9 +18,15 @@ import type { Expense } from "@/api/api-types";
 
 type ExpensesListProps = {
   expenses: Expense[];
+  onEdit: (expense: Expense) => void;
+  onDelete: (expense: Expense) => void;
 };
 
-export default function ExpensesList({ expenses }: ExpensesListProps) {
+export default function ExpensesList({
+  expenses,
+  onEdit,
+  onDelete,
+}: ExpensesListProps) {
   const [query, setQuery] = useState("");
   const filtered = expenses.filter((expense) =>
     `${expense.name} ${expense.categoryName}`
@@ -60,6 +68,7 @@ export default function ExpensesList({ expenses }: ExpensesListProps) {
                   Date <ArrowDownUp size={13} />
                 </th>
                 <th className="align-right">Antal</th>
+                <th aria-label="Actions" />
               </tr>
             </thead>
             <tbody>
@@ -87,6 +96,24 @@ export default function ExpensesList({ expenses }: ExpensesListProps) {
                       style: "currency",
                       currency: "SEK",
                     })}
+                  </td>
+                  <td className="align-right space-x-2">
+                    <button
+                      className="icon-button expense-action expense-action-edit"
+                      type="button"
+                      aria-label={`Edit ${expense.name}`}
+                      onClick={() => onEdit(expense)}
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    <button
+                      className="icon-button expense-action expense-action-delete"
+                      type="button"
+                      aria-label={`Delete ${expense.name}`}
+                      onClick={() => onDelete(expense)}
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </td>
                 </tr>
               ))}

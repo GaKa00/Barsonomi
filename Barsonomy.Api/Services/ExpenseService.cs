@@ -46,10 +46,65 @@ public class ExpenseService : IExpenseService
         };
     }
 
-    public async Task <ExpenseDto[]> GetExpensesAsync(string userId)
+    public async Task<ExpenseDto[]> GetExpensesAsync(string userId)
     {
+        var currentMonthStart = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+        var priorRecurringExpenses = await _context.Expenses
+            .Where(e => e.UserId == userId &&
+                        (e.IsMonthly || e.IsFixed) &&
+                        e.Date < currentMonthStart)
+            .GroupBy(e => new { e.Name, e.CategoryId, e.IsMonthly, e.IsFixed })
+            .Select(group => group.OrderByDescending(e => e.Date).First())
+            .ToListAsync();
+
+        var expiredExpenses = await _context.Expenses
+            .Where(e => e.UserId == userId && e.Date < currentMonthStart)
+            .ToListAsync();
+
+        if (expiredExpenses.Count > 0)
+        {
+            _context.Expenses.RemoveRange(expiredExpenses);
+        }
+
+        var currentMonthRecurringKeys = await _context.Expenses
+            .Where(e => e.UserId == userId &&
+                        (e.IsMonthly || e.IsFixed) &&
+                        e.Date >= currentMonthStart &&
+                        e.Date < currentMonthStart.AddMonths(1))
+            .Select(e => new { e.Name, e.CategoryId, e.IsMonthly, e.IsFixed })
+            .ToListAsync();
+
+        foreach (var recurringExpense in priorRecurringExpenses)
+        {
+            var alreadyApplied = currentMonthRecurringKeys.Any(key =>
+                key.Name == recurringExpense.Name &&
+                key.CategoryId == recurringExpense.CategoryId &&
+                key.IsMonthly == recurringExpense.IsMonthly &&
+                key.IsFixed == recurringExpense.IsFixed);
+
+            if (alreadyApplied)
+                continue;
+
+            var day = Math.Min(
+                recurringExpense.Date.Day,
+                DateTime.DaysInMonth(currentMonthStart.Year, currentMonthStart.Month));
+            _context.Expenses.Add(new Expense
+            {
+                Name = recurringExpense.Name,
+                Amount = recurringExpense.Amount,
+                Date = new DateTime(currentMonthStart.Year, currentMonthStart.Month, day),
+                IsMonthly = recurringExpense.IsMonthly,
+                IsFixed = recurringExpense.IsFixed,
+                CategoryId = recurringExpense.CategoryId,
+                UserId = userId
+            });
+        }
+
+        if (expiredExpenses.Count > 0 || priorRecurringExpenses.Count > 0)
+            await _context.SaveChangesAsync();
+
         var expenses = await _context.Expenses
-            .Where(e => e.UserId == userId)
+            .Where(e => e.UserId == userId && e.Date >= currentMonthStart)
             .Include(e => e.Category)
             .OrderByDescending(e => e.Date)
             .ToListAsync();
@@ -88,9 +143,10 @@ public class ExpenseService : IExpenseService
         };
     }
 
-    public async Task DeleteExpenseAsync(ExpenseDto expenseDto)
+    public async Task DeleteExpenseAsync(int expenseId, string userId)
     {
-        var expense = await _context.Expenses.FindAsync(expenseDto.Id);
+        var expense = await _context.Expenses
+            .FirstOrDefaultAsync(e => e.Id == expenseId && e.UserId == userId);
         if (expense == null)
             throw new ArgumentException("Utgiften finns inte.");
         _context.Expenses.Remove(expense);

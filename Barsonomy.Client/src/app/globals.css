@@ -735,6 +735,25 @@ td {
   background: white;
   box-shadow: 0 22px 70px rgba(24, 37, 43, 0.2);
 }
+.delete-modal h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 27px;
+  letter-spacing: -0.04em;
+}
+.delete-modal-copy {
+  margin: 12px 0 24px;
+  color: var(--muted);
+  font:
+    14px/1.5 Arial,
+    sans-serif;
+}
+.delete-confirm-button {
+  background: #b33a3a !important;
+}
+.delete-confirm-button:hover {
+  background: #922d2d !important;
+}
 .modal-header {
   display: flex;
   align-items: flex-start;

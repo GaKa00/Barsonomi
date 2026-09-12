@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 
 export type ExpenseFormState = Omit<
   CreateExpenseRequest,
-  "amount" | "categoryId" | "date"
+  "amount" | "categoryId"
 > & {
   amount: string;
   categoryId: string;
@@ -18,6 +18,7 @@ interface ExpenseModalProps {
   addExpense: React.FormEventHandler<HTMLFormElement>;
   categories: Category[];
   isSaving: boolean;
+  isEditing: boolean;
 }
 
 export default function ExpenseModal({
@@ -27,6 +28,7 @@ export default function ExpenseModal({
   addExpense,
   categories,
   isSaving,
+  isEditing,
 }: ExpenseModalProps) {
   return (
     <div className="modal-backdrop" onMouseDown={closeAddExpenseModal}>
@@ -39,8 +41,12 @@ export default function ExpenseModal({
       >
         <div className="modal-header">
           <div>
-            <p className="eyebrow">Ny utgift</p>
-            <h2 id="add-expense-title">Lägg till Bjudöl</h2>
+            <p className="eyebrow">
+              {isEditing ? "Redigera utgift" : "Ny utgift"}
+            </p>
+            <h2 id="add-expense-title">
+              {isEditing ? "Redigera Bjudöl" : "Lägg till Bjudöl"}
+            </h2>
           </div>
           <Button
             type="button"
@@ -147,7 +153,11 @@ export default function ExpenseModal({
               type="submit"
               disabled={isSaving || categories.length === 0}
             >
-              {isSaving ? "Saving..." : "Add expense"}
+              {isSaving
+                ? "Saving..."
+                : isEditing
+                  ? "Spara ändringar"
+                  : "Add expense"}
             </Button>
           </div>
         </form>

@@ -69,12 +69,10 @@ public class ExpenseController : ControllerBase
         if (string.IsNullOrEmpty(userId))
             return Unauthorized();
 
-        var expense = await _expenseService.GetExpenseAsync(id, userId);
-
-        if (expense == null)
+        if (await _expenseService.GetExpenseAsync(id, userId) == null)
             return NotFound();
 
-        await _expenseService.DeleteExpenseAsync(expense);
+        await _expenseService.DeleteExpenseAsync(id, userId);
 
         return Ok();
     }

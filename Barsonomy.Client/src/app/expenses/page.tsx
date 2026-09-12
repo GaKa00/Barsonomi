@@ -10,6 +10,7 @@ import { expensesApi } from "@/api/expenses";
 import { dashboardApi } from "@/api/dashboard";
 import { categoriesApi } from "@/api/categories";
 import type { Category, DashboardSummary, Expense } from "@/api/api-types";
+import { Button } from "@/components/ui/button";
 
 export default function ExpensesPage() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -18,6 +19,8 @@ export default function ExpensesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingExpenseId, setEditingExpenseId] = useState<number | null>(null);
+  const [expenseToDelete, setExpenseToDelete] = useState<Expense | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [form, setForm] = useState<ExpenseFormState>({
     name: "",
@@ -25,6 +28,7 @@ export default function ExpensesPage() {
     categoryId: "",
     isMonthly: false,
     isFixed: false,
+    date: new Date().toISOString(),
   });
 
   useEffect(() => {
@@ -47,6 +51,9 @@ export default function ExpensesPage() {
     const date = new Date(expense.date);
     return date >= monthStart && date < nextMonthStart;
   });
+  const visibleExpenses = expenses.filter(
+    (expense) => new Date(expense.date) >= monthStart,
+  );
   const monthlyTotal = monthlyExpenses.reduce(
     (total, expense) => total + expense.amount,
     0,
@@ -64,11 +71,47 @@ export default function ExpensesPage() {
   )[0];
   const openAddExpenseModal = () => {
     setError(null);
+    setEditingExpenseId(null);
     setForm((currentForm) => ({
       ...currentForm,
       categoryId: currentForm.categoryId || String(categories[0]?.id ?? ""),
     }));
     setIsModalOpen(true);
+  };
+
+  const openEditExpenseModal = (expense: Expense) => {
+    setError(null);
+    setEditingExpenseId(expense.id);
+    setForm({
+      name: expense.name,
+      amount: String(expense.amount),
+      categoryId: String(expense.categoryId),
+      isMonthly: expense.isMonthly,
+      isFixed: expense.isFixed,
+      date: expense.date,
+    });
+    setIsModalOpen(true);
+  };
+
+  const deleteExpense = async (expense: Expense) => {
+    setExpenseToDelete(expense);
+  };
+
+  const confirmDeleteExpense = async () => {
+    if (!expenseToDelete) return;
+
+    try {
+      await expensesApi.remove(expenseToDelete.id);
+      setExpenses((currentExpenses) =>
+        currentExpenses.filter(
+          (currentExpense) => currentExpense.id !== expenseToDelete.id,
+        ),
+      );
+      setExpenseToDelete(null);
+      setError(null);
+    } catch {
+      setError("Could not delete the expense.");
+    }
   };
 
   const closeAddExpenseModal = () => {
@@ -77,7 +120,7 @@ export default function ExpensesPage() {
     }
   };
 
-  const addExpense = async (event: React.FormEvent<HTMLFormElement>) => {
+  const saveExpense = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const amount = Number(form.amount);
     const categoryId = Number(form.categoryId);
@@ -94,15 +137,36 @@ export default function ExpensesPage() {
 
     try {
       setIsSaving(true);
-      const createdExpense = await expensesApi.create({
-        name: form.name.trim(),
+      const expensePayload = {
+        name:
+          editingExpenseId === null
+            ? form.name.trim().charAt(0).toUpperCase() +
+              form.name.trim().slice(1)
+            : form.name.trim(),
         amount,
-        date: new Date().toISOString(),
+        date: form.date,
         isMonthly: form.isMonthly,
         isFixed: form.isFixed,
         categoryId,
-      });
-      setExpenses((currentExpenses) => [createdExpense, ...currentExpenses]);
+      };
+      if (editingExpenseId === null) {
+        const createdExpense = await expensesApi.create(expensePayload);
+        setExpenses((currentExpenses) => [createdExpense, ...currentExpenses]);
+      } else {
+        const currentExpense = expenses.find(
+          (expense) => expense.id === editingExpenseId,
+        );
+        if (!currentExpense) throw new Error("Expense not found.");
+        const updatedExpense = await expensesApi.update({
+          ...currentExpense,
+          ...expensePayload,
+        });
+        setExpenses((currentExpenses) =>
+          currentExpenses.map((expense) =>
+            expense.id === updatedExpense.id ? updatedExpense : expense,
+          ),
+        );
+      }
       setError(null);
       setForm({
         name: "",
@@ -110,10 +174,11 @@ export default function ExpensesPage() {
         categoryId: String(categories[0]?.id ?? ""),
         isMonthly: false,
         isFixed: false,
+        date: new Date().toISOString(),
       });
       setIsModalOpen(false);
     } catch {
-      setError("Could not create the expense.");
+      setError("Could not save the expense.");
     } finally {
       setIsSaving(false);
     }
@@ -133,7 +198,11 @@ export default function ExpensesPage() {
         {isLoading ? (
           <p>Loading expenses...</p>
         ) : (
-          <ExpensesList expenses={expenses} />
+          <ExpensesList
+            expenses={visibleExpenses}
+            onEdit={openEditExpenseModal}
+            onDelete={deleteExpense}
+          />
         )}
       </main>
       {isModalOpen && (
@@ -141,10 +210,48 @@ export default function ExpensesPage() {
           closeAddExpenseModal={closeAddExpenseModal}
           form={form}
           setForm={setForm}
-          addExpense={addExpense}
+          addExpense={saveExpense}
           categories={categories}
           isSaving={isSaving}
+          isEditing={editingExpenseId !== null}
         />
+      )}
+      {expenseToDelete && (
+        <div
+          className="modal-backdrop"
+          onMouseDown={() => setExpenseToDelete(null)}
+        >
+          <section
+            className="expense-modal delete-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-expense-title"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <p className="eyebrow">Ta bort utgift</p>
+            <h2 id="delete-expense-title">Är du säker?</h2>
+            <p className="delete-modal-copy">
+              Vill du ta bort <strong>{expenseToDelete.name}</strong>? Detta går
+              inte att ångra.
+            </p>
+            <div className="modal-actions">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setExpenseToDelete(null)}
+              >
+                Avbryt
+              </Button>
+              <Button
+                type="button"
+                className="delete-confirm-button"
+                onClick={confirmDeleteExpense}
+              >
+                Ta bort
+              </Button>
+            </div>
+          </section>
+        </div>
       )}
     </AppShell>
   );

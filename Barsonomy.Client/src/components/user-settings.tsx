@@ -93,7 +93,7 @@ export function UserSettings({
       </div>
       <form className="settings-form" onSubmit={handleSubmit}>
         <label>
-          Hur många riksdaler vill du spendera per månad??
+          Hur många riksdaler kandu spendera per månad??
           <Input
             required
             min="0.01"
@@ -164,7 +164,7 @@ export function UserSettings({
         </div>
         <form className="settings-form" onSubmit={handleSubmit}>
           <label>
-            Hur många riksdaler vill du spendera per månad?
+            Hur många riksdaler kan du spendera per månad?
             <Input
               required
               autoFocus
