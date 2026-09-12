@@ -30,11 +30,11 @@ export default function ExpenseSummary({
           </div>
           <div className="summary-meta">
             <span>
-              {Math.round(budgetProgress)}% of your{" "}
+              {Math.round(budgetProgress)}% av{" "}
               {formatCurrency(monthlyBudget)} budget
             </span>
             <strong>
-              {formatCurrency(Math.max(monthlyBudget - monthlyTotal, 0))} left
+              {formatCurrency(Math.max(monthlyBudget - monthlyTotal, 0))} kvar
             </strong>
           </div>
         </Card>
@@ -43,15 +43,13 @@ export default function ExpenseSummary({
           <div className="summary-value">
             {formatCurrency(monthlyTotal / Math.max(new Date().getDate(), 1))}
           </div>
-          <div className="summary-meta">
-            <span>Daily average this month</span>
-          </div>
+         
         </Card>
         <Card>
-          <div className="summary-label">Largest category</div>
+          <div className="summary-label">Största kategori</div>
           <div className="summary-value">{largestCategory}</div>
           <div className="summary-meta">
-            <span>{formatCurrency(largestCategoryTotal)} this month</span>
+            <span>{formatCurrency(largestCategoryTotal)} denna månad</span>
           </div>
         </Card>
       </section>

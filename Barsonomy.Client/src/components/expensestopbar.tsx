@@ -18,7 +18,7 @@ export default function ExpensesTopBar({ onAddExpense }: ExpensesTopBarProps) {
         </div>
         <Button onClick={onAddExpense}>
           <Plus size={17} />
-          Lägg till Bjudöl.
+          Lägg till utgift
         </Button>
       </header>
     </div>

@@ -50,12 +50,7 @@ export default function ExpensesList({
             <button className="filter-button">
               <CalendarDays size={16} /> Denna månad <ChevronDown size={14} />
             </button>
-            <button className="filter-button">
-              <SlidersHorizontal size={16} /> Filter
-            </button>
-            <button className="icon-button" aria-label="Export expenses">
-              <Download size={17} />
-            </button>
+           
           </div>
         </div>
         <div className="table-scroll">
@@ -63,9 +58,9 @@ export default function ExpensesList({
             <thead>
               <tr>
                 <th>Merchant</th>
-                <th>Category</th>
+                <th>Kategori</th>
                 <th>
-                  Date <ArrowDownUp size={13} />
+                  Datum <ArrowDownUp size={13} />
                 </th>
                 <th className="align-right">Antal</th>
                 <th aria-label="Actions" />
