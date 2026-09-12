@@ -8,7 +8,11 @@ import UserSpending from "./userspending";
 import type { Expense } from "@/api/api-types";
 import { expensesApi } from "@/api/expenses";
 
-export default function UserDashboard() {
+export default function UserDashboard({
+  refreshKey = 0,
+}: {
+  refreshKey?: number;
+}) {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
   useEffect(() => {
@@ -16,7 +20,7 @@ export default function UserDashboard() {
       .list()
       .then(setExpenses)
       .catch(() => setExpenses([]));
-  }, []);
+  }, [refreshKey]);
 
   return (
     <div>

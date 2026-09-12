@@ -8,7 +8,13 @@ import type { DashboardSummary } from "@/api/api-types";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
+export function UserSettings({
+  isSetup = false,
+  onUpdated,
+}: {
+  isSetup?: boolean;
+  onUpdated?: () => void;
+}) {
   const router = useRouter();
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [monthlyIncome, setMonthlyIncome] = useState("");
@@ -52,6 +58,7 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
         beerPriceSek,
       });
       setSummary(updatedSummary);
+      onUpdated?.();
       setMessage("Settings saved.");
       if (isSetup) {
         router.push("/dashboard");
@@ -86,7 +93,7 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
       </div>
       <form className="settings-form" onSubmit={handleSubmit}>
         <label>
-          Hur många riksdaler har du i ägo?
+          Hur många riksdaler vill du spendera per månad??
           <Input
             required
             min="0.01"
@@ -157,7 +164,7 @@ export function UserSettings({ isSetup = false }: { isSetup?: boolean }) {
         </div>
         <form className="settings-form" onSubmit={handleSubmit}>
           <label>
-            Hur många riksdaler har du i ägo?
+            Hur många riksdaler vill du spendera per månad?
             <Input
               required
               autoFocus

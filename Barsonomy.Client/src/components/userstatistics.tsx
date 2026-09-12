@@ -9,7 +9,11 @@ import { Card, CardContent } from "./ui/card";
 
 const formatBeers = (value: number) => `${value.toFixed(1)} 🍺`;
 
-export default function UserStatistics() {
+export default function UserStatistics({
+  refreshKey = 0,
+}: {
+  refreshKey?: number;
+}) {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
@@ -20,12 +24,12 @@ export default function UserStatistics() {
         setExpenses(userExpenses);
       })
       .catch(() => setSummary(null));
-  }, []);
+  }, [refreshKey]);
 
   if (!summary) {
     return (
       <section className="stat-grid" aria-label="Beer statistics">
-         Letar efter öl...
+        Letar efter öl...
       </section>
     );
   }
@@ -89,14 +93,13 @@ export default function UserStatistics() {
               <CreditCard size={18} /> Bjudöl per månad
             </div>
             <div className="stat-value">{formatBeers(upcomingBillsBeers)}</div>
-            <div className = "flex space-x-3">
-
-            <div className="stat-foot">
-              {monthlySubscriptions.length}  Prenumeration
-            </div>
-            <span className="stat-foot">
-              {" - " + upcomingBillsBeers * beerPrice + " Kr"}
-            </span>
+            <div className="flex space-x-3">
+              <div className="stat-foot">
+                {monthlySubscriptions.length} Prenumeration
+              </div>
+              <span className="stat-foot">
+                {" - " + upcomingBillsBeers * beerPrice + " Kr"}
+              </span>
             </div>
           </CardContent>
         </Card>
