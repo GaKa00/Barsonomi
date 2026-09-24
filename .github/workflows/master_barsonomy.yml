@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    paths: 
+    - ./Barsonomy.Client
   workflow_dispatch:
 
 jobs:
