@@ -7,27 +7,37 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? builder.Configuration["ConnectionString"];
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration["ConnectionString"]));
+    options.UseSqlServer(connectionString));
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.AllowAnyOrigin() 
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddOpenApi();
-
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorizationBuilder();
 
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>(options =>
 {
-
-   options.User.RequireUniqueEmail = true;
+    options.User.RequireUniqueEmail = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequireUppercase = true;
     options.Password.RequireLowercase = false;
     options.Password.RequiredLength = 6;
 }).AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Register Services
+
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddScoped<IBeerService, BeerService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -37,14 +47,21 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-
     app.MapScalarApiReference();
 }
 
-    app.UseHttpsRedirection();
+app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
