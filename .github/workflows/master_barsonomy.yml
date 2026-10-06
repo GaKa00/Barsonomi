@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - master
-    paths: 
-    - ./Barsonomy.Client
+    paths:
+      - Barsonomy.Client/**
+      - .github/workflows/master_barsonomy.yml
   workflow_dispatch:
 
 jobs:
@@ -20,12 +21,12 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       - name: Install dependencies and build Next.js app
         working-directory: ./Barsonomy.Client
         env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
         run: |
           npm ci
           npm run build --if-present
@@ -36,6 +37,7 @@ jobs:
         run: |
           cp -r public .next/standalone/public || true
           cp -r .next/static .next/standalone/.next/static
+          npm pkg set scripts.start="node server.js" --prefix .next/standalone
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -65,10 +67,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_379BE6E3851A4AE39F0E4E36CF6793EB }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3B18D55F9A28431EBA79AC1279FEA26F }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'barsonomy'
-          slot-name: 'Production'
+          app-name: "barsonomy"
+          slot-name: "Production"
           package: ./standalone
