@@ -50,7 +50,6 @@ export default function ExpensesList({
             <button className="filter-button">
               <CalendarDays size={16} /> Denna månad <ChevronDown size={14} />
             </button>
-           
           </div>
         </div>
         <div className="table-scroll">
@@ -116,9 +115,7 @@ export default function ExpensesList({
           </table>
         </div>
         {filtered.length === 0 && (
-          <div className="empty-state">
-            Inga utgifter matchar din sökning.
-          </div>
+          <div className="empty-state">Inga utgifter matchar din sökning.</div>
         )}
         <div className="table-footer">
           Visar {filtered.length} av {expenses.length} utgifter
