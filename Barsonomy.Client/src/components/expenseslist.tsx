@@ -41,7 +41,7 @@ export default function ExpensesList({
           <div className="search-wrap">
             <Search size={17} />
             <Input
-              placeholder="Search expenses..."
+              placeholder="Sök utgifter..."
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -57,13 +57,13 @@ export default function ExpensesList({
           <table>
             <thead>
               <tr>
-                <th>Merchant</th>
+                <th>Namn</th>
                 <th>Kategori</th>
                 <th>
                   Datum <ArrowDownUp size={13} />
                 </th>
                 <th className="align-right">Antal</th>
-                <th aria-label="Actions" />
+                <th aria-label="Åtgärder" />
               </tr>
             </thead>
             <tbody>
@@ -96,7 +96,7 @@ export default function ExpensesList({
                     <button
                       className="icon-button expense-action expense-action-edit"
                       type="button"
-                      aria-label={`Edit ${expense.name}`}
+                      aria-label={`Redigera ${expense.name}`}
                       onClick={() => onEdit(expense)}
                     >
                       <Pencil size={16} />
@@ -104,7 +104,7 @@ export default function ExpensesList({
                     <button
                       className="icon-button expense-action expense-action-delete"
                       type="button"
-                      aria-label={`Delete ${expense.name}`}
+                      aria-label={`Ta bort ${expense.name}`}
                       onClick={() => onDelete(expense)}
                     >
                       <Trash2 size={16} />
@@ -116,10 +116,12 @@ export default function ExpensesList({
           </table>
         </div>
         {filtered.length === 0 && (
-          <div className="empty-state">No expenses match your search.</div>
+          <div className="empty-state">
+            Inga utgifter matchar din sökning.
+          </div>
         )}
         <div className="table-footer">
-          {filtered.length} av {expenses.length}Bärs <span>Page 1 of 1</span>
+          Visar {filtered.length} av {expenses.length} utgifter
         </div>
       </Card>
     </div>

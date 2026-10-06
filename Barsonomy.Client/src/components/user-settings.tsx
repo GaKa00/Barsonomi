@@ -32,7 +32,7 @@ export function UserSettings({
         setMonthlyIncome(String(loadedSummary.monthlyIncomeSek));
         setBeerPrice(String(loadedSummary.beerPriceSek));
       })
-      .catch(() => setMessage("Could not load your settings."))
+      .catch(() => setMessage("Det gick inte att hämta inställningarna."))
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -47,7 +47,7 @@ export function UserSettings({
       !Number.isFinite(beerPriceSek) ||
       beerPriceSek <= 0
     ) {
-      setMessage("Enter positive values for both fields.");
+      setMessage("Ange positiva värden i båda fälten.");
       return;
     }
 
@@ -59,12 +59,12 @@ export function UserSettings({
       });
       setSummary(updatedSummary);
       onUpdated?.();
-      setMessage("Settings saved.");
+      setMessage("Inställningarna har sparats.");
       if (isSetup) {
         router.push("/dashboard");
       }
     } catch {
-      setMessage("Could not save your settings.");
+      setMessage("Det gick inte att spara inställningarna.");
     } finally {
       setIsSaving(false);
     }
@@ -122,7 +122,7 @@ export function UserSettings({
           disabled={isLoading || isSaving || !summary}
         >
           {isSaving
-            ? "Saving..."
+            ? "Sparar..."
             : isSetup
               ? "Spara inställningar"
               : "Spara ändringar"}
@@ -156,7 +156,7 @@ export function UserSettings({
             type="button"
             variant="ghost"
             size="icon"
-            aria-label="Close settings"
+            aria-label="Stäng inställningarna"
             onClick={() => !isSaving && setIsOpen(false)}
           >
             <X size={18} />
@@ -198,7 +198,7 @@ export function UserSettings({
               Avbryt
             </Button>
             <Button type="submit" disabled={isLoading || isSaving || !summary}>
-              {isSaving ? "Saving..." : "Spara ändringar"}
+              {isSaving ? "Sparar..." : "Spara ändringar"}
             </Button>
           </div>
           {message && (

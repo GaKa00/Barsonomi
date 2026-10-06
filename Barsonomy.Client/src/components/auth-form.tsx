@@ -51,8 +51,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
     } catch {
       setErrorMessage(
         isRegister
-          ? "We could not create your account. Check your details and try again."
-          : "We could not sign you in. Check your email and password.",
+          ? "Det gick inte att skapa kontot. Kontrollera uppgifterna och försök igen."
+          : "Det gick inte att logga in. Kontrollera e-postadress och lösenord.",
       );
     }
   }
@@ -84,7 +84,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
                 </div>
               </>
             )}
-            <Label htmlFor="email">Email address</Label>
+            <Label htmlFor="email">E-postadress</Label>
             <div className="input-with-icon">
               <Mail size={17} />
               <Input
@@ -96,7 +96,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               />
             </div>
             <div className="field-label-row">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Lösenord</Label>
               {!isRegister && (
                 <Link href="#" className="form-link">
                   Glömt Lösenordet? Jävla Fyllo.
@@ -121,7 +121,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
                   type="button"
                   className="password-toggle"
                   aria-label={
-                    passwordVisible ? "Hide password" : "Show password"
+                    passwordVisible ? "Dölj lösenord" : "Visa lösenord"
                   }
                   aria-pressed={passwordVisible}
                   onClick={() => setPasswordVisible((visible) => !visible)}
@@ -131,14 +131,14 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               </div>
               {capsLockOn && (
                 <p className="caps-lock-message" role="status">
-                  Caps Lock is on
+                  Caps Lock är aktiverat
                 </p>
               )}
             </div>
           </div>
           <Button type="submit" size="lg" className="auth-submit">
             {submitted
-              ? "You’re in"
+              ? "Klart!"
               : isRegister
                 ? "Skapa ditt konto"
                 : "Logga in"}{" "}

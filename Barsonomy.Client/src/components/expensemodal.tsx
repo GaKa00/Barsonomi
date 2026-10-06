@@ -52,7 +52,7 @@ export default function ExpenseModal({
             type="button"
             variant="ghost"
             size="icon"
-            aria-label="Close dialog"
+            aria-label="Stäng dialogrutan"
             onClick={closeAddExpenseModal}
           >
             <X size={18} />
@@ -71,7 +71,7 @@ export default function ExpenseModal({
                   name: event.target.value,
                 }))
               }
-              placeholder="Rent, groceries, savings..."
+              placeholder="Hyra, mat, sparande..."
             />
           </label>
           <label>
@@ -88,7 +88,7 @@ export default function ExpenseModal({
                   amount: event.target.value,
                 }))
               }
-              placeholder="0.00"
+              placeholder="0,00"
             />
           </label>
           <label>
@@ -154,10 +154,10 @@ export default function ExpenseModal({
               disabled={isSaving || categories.length === 0}
             >
               {isSaving
-                ? "Saving..."
+                ? "Sparar..."
                 : isEditing
                   ? "Spara ändringar"
-                  : "Add expense"}
+                  : "Lägg till utgift"}
             </Button>
           </div>
         </form>
