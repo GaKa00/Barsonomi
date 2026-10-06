@@ -1,18 +1,21 @@
 import type { NextConfig } from "next";
 
+// Read API_URL if provided, or default to localhost for local dev
 const apiUrl =
   process.env.API_URL?.replace(/\/+$/, "") ??
   (process.env.NODE_ENV === "development"
     ? "http://localhost:5276"
-    : undefined);
-
-if (!apiUrl) {
-  throw new Error("API_URL must be set when building for production.");
-}
+    : "");
 
 const nextConfig: NextConfig = {
   output: "standalone",
   async rewrites() {
+    // If API_URL is missing during build, skip generating static rewrite rules.
+    // Azure App Service will inject process.env.API_URL at runtime.
+    if (!apiUrl) {
+      return [];
+    }
+
     return [
       {
         source: "/api/auth/:path*",
