@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ArrowRight, LockKeyhole, Mail, UserRound } from "lucide-react";
+import {
+  ArrowRight,
+  Eye,
+  EyeOff,
+  LockKeyhole,
+  Mail,
+  UserRound,
+} from "lucide-react";
 import { api } from "@/api/api-client";
 import { AuthLogo } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
@@ -15,6 +22,12 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const isRegister = mode === "register";
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [capsLockOn, setCapsLockOn] = useState(false);
+
+  function updateCapsLock(event: React.KeyboardEvent<HTMLInputElement>) {
+    setCapsLockOn(event.getModifierState("CapsLock"));
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -90,16 +103,37 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
                 </Link>
               )}
             </div>
-            <div className="input-with-icon">
-              <LockKeyhole size={17} />
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="••••••••"
-                minLength={8}
-                required
-              />
+            <div>
+              <div className="input-with-icon password-input-wrap">
+                <LockKeyhole size={17} />
+                <Input
+                  id="password"
+                  name="password"
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="••••••••"
+                  minLength={8}
+                  required
+                  onKeyDown={updateCapsLock}
+                  onKeyUp={updateCapsLock}
+                  onBlur={() => setCapsLockOn(false)}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  aria-label={
+                    passwordVisible ? "Hide password" : "Show password"
+                  }
+                  aria-pressed={passwordVisible}
+                  onClick={() => setPasswordVisible((visible) => !visible)}
+                >
+                  {passwordVisible ? <EyeOff size={17} /> : <Eye size={17} />}
+                </button>
+              </div>
+              {capsLockOn && (
+                <p className="caps-lock-message" role="status">
+                  Caps Lock is on
+                </p>
+              )}
             </div>
           </div>
           <Button type="submit" size="lg" className="auth-submit">
